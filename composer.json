@@ -14,7 +14,7 @@
     },
     "require": {
         "php": ">=7.0",
-        "vainyl/core": "dev-master"
+        "vainyl/core": "0.1.x-dev"
     },
     "config": {
         "secure-http": false
