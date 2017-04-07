@@ -10,21 +10,19 @@
  */
 declare(strict_types=1);
 
-namespace Vainyl\Event;
+namespace Vainyl\Event\Exception;
 
-use Vainyl\Core\IdentifiableInterface;
+use Vainyl\Event\EventDispatcherInterface;
 
 /**
- * Interface EventDispatcherInterface
+ * Interface DispatcherExceptionInterface
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-interface EventDispatcherInterface extends IdentifiableInterface
+interface DispatcherExceptionInterface extends \Throwable
 {
     /**
-     * @param EventInterface $event
-     *
      * @return EventDispatcherInterface
      */
-    public function dispatch(EventInterface $event) : EventDispatcherInterface;
+    public function getEventDispatcher() : EventDispatcherInterface;
 }
