@@ -1,0 +1,30 @@
+{
+    "name": "vainyl/event",
+    "type": "shared-package",
+    "authors": [
+        {
+            "name": "Taras Girnyk",
+            "email": "taras.p.gyrnik@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Vainyl\\Event\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.0",
+        "vainyl/core": "0.1.x-dev"
+    },
+    "config": {
+        "secure-http": false
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://78.47.118.217"
+        }
+    ],
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}
