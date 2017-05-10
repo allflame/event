@@ -14,15 +14,12 @@
     },
     "require": {
         "php": ">=7.0",
-        "vainyl/core": "dev-master"
-    },
-    "config": {
-        "secure-http": false
+        "vainyl/core": "0.1.x-dev"
     },
     "repositories": [
         {
             "type": "composer",
-            "url": "http://78.47.118.217"
+            "url": "https://satis.vainyl.com:444"
         }
     ],
     "prefer-stable": true,
