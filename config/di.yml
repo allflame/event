@@ -1,0 +1,11 @@
+services:
+  event.handler.factory:
+    class: Vainyl\Event\Factory\ContainerHandlerFactory
+    arguments: ['@service.container']
+  event.handler.storage:
+    parent: storage.proxy
+    class: Vainyl\Event\Storage\EventHandlerStorage
+    arguments: ['@event.handler.factory']
+  event.dispatcher:
+    class: Vainyl\Event\EventDispatcher
+    arguments: ['@event.handler.storage']
