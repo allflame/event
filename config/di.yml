@@ -1,7 +1,7 @@
 services:
   event.handler.factory:
     class: Vainyl\Event\Factory\ContainerHandlerFactory
-    arguments: ['@service_container']
+    arguments: ['@app.di']
   event.handler.storage:
     class: Vainyl\Event\Storage\EventHandlerStorage
     arguments: ['storage.prototype', '@event.handler.factory']
