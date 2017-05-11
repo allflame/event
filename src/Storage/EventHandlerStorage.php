@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Vainyl\Event\Storage;
 
-use Ds\Map;
-use Vainyl\Core\Storage\Proxy\AbstractStorageProxy;
+use Vainyl\Core\Storage\Decorator\AbstractStorageDecorator;
+use Vainyl\Core\Storage\StorageInterface;
 use Vainyl\Event\EventInterface;
 use Vainyl\Event\Factory\EventHandlerFactoryInterface;
 
@@ -22,20 +22,21 @@ use Vainyl\Event\Factory\EventHandlerFactoryInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class EventHandlerStorage extends AbstractStorageProxy implements EventHandlerStorageInterface
+class EventHandlerStorage extends AbstractStorageDecorator implements EventHandlerStorageInterface
 {
     private $handlerFactory;
 
     /**
      * EventHandlerStorage constructor.
      *
-     * @param Map                          $storage
+     * @param StorageInterface $storage
      * @param EventHandlerFactoryInterface $handlerFactory
      */
     public function __construct(
-        Map $storage,
+        StorageInterface $storage,
         EventHandlerFactoryInterface $handlerFactory
-    ) {
+    )
+    {
         $this->handlerFactory = $handlerFactory;
         parent::__construct($storage);
     }
