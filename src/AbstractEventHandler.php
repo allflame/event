@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Vainyl\Event;
 
 use Vainyl\Core\AbstractIdentifiable;
+use Vainyl\Event\Exception\MissingMethodException;
 
 /**
  * Class AbstractEventHandler
@@ -29,7 +30,7 @@ abstract class AbstractEventHandler extends AbstractIdentifiable implements Even
         $name = $event->getName();
 
         if (false === method_exists($name, $this)) {
-
+            throw new MissingMethodException($this, $event, $name);
         }
 
         return call_user_func([$this, $name], $name);

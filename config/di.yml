@@ -1,0 +1,14 @@
+services:
+  logger.event:
+    synthetic: true
+    tags:
+      - {name: 'logger', channel: 'event'}
+  event.handler.factory:
+    class: Vainyl\Event\Factory\ContainerHandlerFactory
+    arguments: ['@app.di']
+  event.handler.storage:
+    class: Vainyl\Event\Storage\EventHandlerStorage
+    arguments: ['@storage.prototype', '@event.handler.factory']
+  event.dispatcher:
+    class: Vainyl\Event\EventDispatcher
+    arguments: ['@event.handler.storage']
