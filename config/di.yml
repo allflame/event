@@ -1,4 +1,8 @@
 services:
+  logger.event:
+    synthetic: true
+    tags:
+      - {name: 'logger', channel: 'event'}
   event.handler.factory:
     class: Vainyl\Event\Factory\ContainerHandlerFactory
     arguments: ['@app.di']
