@@ -14,4 +14,8 @@ services:
     arguments: ['@event.handler.storage']
   event.config:
     class: Vainyl\Event\Config\EventConfig
-    arguments: ['@storage.prototype']
+    factory: ['@event.config.factory', createConfig]
+    arguments: ['event.yml']
+  event.config.factory:
+    class: Vainyl\Event\Config\EventConfigFactory
+    arguments: ['@storage.prototype', '@extension.storage']
