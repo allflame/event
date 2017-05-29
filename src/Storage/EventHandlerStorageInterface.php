@@ -28,5 +28,5 @@ interface EventHandlerStorageInterface extends StorageInterface
      *
      * @return EventHandlerInterface[]
      */
-    public function getHandlers(EventInterface $event) : array;
+    public function getHandlers(EventInterface $event): array;
 }
