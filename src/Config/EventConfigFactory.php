@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Vainyl\Event\Config;
 
 use Symfony\Component\Yaml\Yaml;
+use Vainyl\Core\Application\EnvironmentInterface;
 use Vainyl\Core\Extension\AbstractExtension;
 use Vainyl\Core\Extension\ExtensionStorageInterface;
 use Vainyl\Core\Storage\StorageInterface;
@@ -43,25 +44,18 @@ class EventConfigFactory
     }
 
     /**
-     * @param string $baseFileName
+     * @param EnvironmentInterface $environment
      *
      * @return EventConfig
      */
-    public function createConfig(string $baseFileName): EventConfig
+    public function createConfig(EnvironmentInterface $environment): EventConfig
     {
         $configData = [];
         /**
          * @var AbstractExtension $extension
          */
         foreach ($this->extensionStorage->getIterator() as $extension) {
-            $fileName = sprintf(
-                '%s%s%%s%%s',
-                $extension->getDirectory(),
-                DIRECTORY_SEPARATOR,
-                $extension->getConfigDirectory(),
-                DIRECTORY_SEPARATOR,
-                $baseFileName
-            );
+            $fileName = $extension->getConfigDirectory($environment) . 'event.yml';
             if (false === file_exists($fileName)) {
                 continue;
             }
