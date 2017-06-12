@@ -19,3 +19,6 @@ services:
   event.config.factory:
     class: Vainyl\Event\Config\EventConfigFactory
     arguments: ['@storage.prototype', '@extension.storage']
+  event.dispatcher.collection:
+    class: Vainyl\Event\Operation\CollectionEventDispatcher
+    arguments: ['@storage.prototype', '@event.dispatcher']
