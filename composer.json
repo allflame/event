@@ -13,7 +13,6 @@
         }
     },
     "require": {
-        "php": ">=7.0",
         "vainyl/core": "0.1.x-dev",
         "vainyl/operation": "0.1.x-dev"
     },
