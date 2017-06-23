@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Vainyl\Event\Extension;
 
-use Vainyl\Core\Extension\AbstractExtension;
+use Vainyl\Core\Extension\AbstractFrameworkExtension;
 
 /**
  * Class EventExtension
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class EventExtension extends AbstractExtension
+class EventExtension extends AbstractFrameworkExtension
 {
 }

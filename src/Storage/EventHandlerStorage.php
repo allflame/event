@@ -24,19 +24,23 @@ use Vainyl\Event\Factory\EventHandlerFactoryInterface;
  */
 class EventHandlerStorage extends AbstractStorageDecorator implements EventHandlerStorageInterface
 {
+    private $eventConfig;
+
     private $handlerFactory;
 
     /**
      * EventHandlerStorage constructor.
      *
-     * @param StorageInterface $storage
+     * @param StorageInterface             $storage
+     * @param StorageInterface             $eventConfig
      * @param EventHandlerFactoryInterface $handlerFactory
      */
     public function __construct(
         StorageInterface $storage,
+        StorageInterface $eventConfig,
         EventHandlerFactoryInterface $handlerFactory
-    )
-    {
+    ) {
+        $this->eventConfig = $eventConfig;
         $this->handlerFactory = $handlerFactory;
         parent::__construct($storage);
     }
@@ -58,6 +62,11 @@ class EventHandlerStorage extends AbstractStorageDecorator implements EventHandl
      */
     public function getHandlers(EventInterface $event): array
     {
-        return [];
+        $eventHandlers = [];
+        foreach ($this->eventConfig[$event->getName()] as $alias) {
+            $eventHandlers[] = $this->offsetGet($alias);
+        }
+
+        return $eventHandlers;
     }
 }
