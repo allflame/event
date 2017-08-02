@@ -52,3 +52,4 @@ class EventCollectionDecorator extends AbstractCollectionDecorator
 
         return $result;
     }
+}
