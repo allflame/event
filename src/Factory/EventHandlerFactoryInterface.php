@@ -27,5 +27,5 @@ interface EventHandlerFactoryInterface extends IdentifiableInterface
      *
      * @return EventHandlerInterface
      */
-    public function create(string $handlerName) : EventHandlerInterface;
+    public function create(string $handlerName): EventHandlerInterface;
 }

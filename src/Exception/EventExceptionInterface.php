@@ -24,5 +24,5 @@ interface EventExceptionInterface extends \Throwable
     /**
      * @return EventInterface
      */
-    public function getEvent() : EventInterface;
+    public function getEvent(): EventInterface;
 }

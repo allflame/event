@@ -24,5 +24,5 @@ interface DispatcherExceptionInterface extends \Throwable
     /**
      * @return EventDispatcherInterface
      */
-    public function getEventDispatcher() : EventDispatcherInterface;
+    public function getEventDispatcher(): EventDispatcherInterface;
 }

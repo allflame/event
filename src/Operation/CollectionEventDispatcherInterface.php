@@ -24,10 +24,10 @@ interface CollectionEventDispatcherInterface extends EventDispatcherInterface
     /**
      * @return CollectionEventDispatcherInterface
      */
-    public function start() : CollectionEventDispatcherInterface;
+    public function start(): CollectionEventDispatcherInterface;
 
     /**
      * @return CollectionEventDispatcherInterface
      */
-    public function flush() : CollectionEventDispatcherInterface;
+    public function flush(): CollectionEventDispatcherInterface;
 }
