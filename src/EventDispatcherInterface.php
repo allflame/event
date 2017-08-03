@@ -26,5 +26,5 @@ interface EventDispatcherInterface extends IdentifiableInterface
      *
      * @return EventDispatcherInterface
      */
-    public function dispatch(EventInterface $event) : EventDispatcherInterface;
+    public function dispatch(EventInterface $event): EventDispatcherInterface;
 }
