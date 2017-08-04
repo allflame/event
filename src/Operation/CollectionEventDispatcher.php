@@ -84,7 +84,7 @@ class CollectionEventDispatcher extends AbstractIdentifiable implements Collecti
      */
     public function dispatch(EventInterface $event): EventDispatcherInterface
     {
-        $this->storage[] = $event;
+        $this->storage->offsetSet($event->getId(), $event);
 
         return $this;
     }
