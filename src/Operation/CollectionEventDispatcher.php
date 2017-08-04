@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Vainyl\Event\Operation;
 
 use Vainyl\Core\AbstractIdentifiable;
-use Vainyl\Core\Storage\StorageInterface;
+use Vainyl\Core\Queue\QueueInterface;
 use Vainyl\Event\EventDispatcherInterface;
 use Vainyl\Event\EventInterface;
 use Vainyl\Event\Exception\LevelIntegrityDispatcherException;
@@ -25,7 +25,7 @@ use Vainyl\Event\Exception\LevelIntegrityDispatcherException;
  */
 class CollectionEventDispatcher extends AbstractIdentifiable implements CollectionEventDispatcherInterface
 {
-    private $storage;
+    private $queue;
 
     private $level = 0;
 
@@ -34,12 +34,12 @@ class CollectionEventDispatcher extends AbstractIdentifiable implements Collecti
     /**
      * CollectionEventDispatcher constructor.
      *
-     * @param StorageInterface         $storage
+     * @param QueueInterface         $queue
      * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(StorageInterface $storage, EventDispatcherInterface $eventDispatcher)
+    public function __construct(QueueInterface $queue, EventDispatcherInterface $eventDispatcher)
     {
-        $this->storage = $storage;
+        $this->queue = $queue;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -72,7 +72,7 @@ class CollectionEventDispatcher extends AbstractIdentifiable implements Collecti
             throw new LevelIntegrityDispatcherException($this, $this->level);
         }
 
-        foreach ($this->storage->getIterator() as $event) {
+        foreach ($this->queue->dequeue() as $event) {
             $this->eventDispatcher->dispatch($event);
         }
 
@@ -84,7 +84,7 @@ class CollectionEventDispatcher extends AbstractIdentifiable implements Collecti
      */
     public function dispatch(EventInterface $event): EventDispatcherInterface
     {
-        $this->storage[] = $event;
+        $this->queue->enqueue($event);
 
         return $this;
     }

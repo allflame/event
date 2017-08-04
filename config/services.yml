@@ -8,7 +8,7 @@ services:
     arguments: ['@app.di']
   event.handler.storage:
     class: Vainyl\Event\Storage\EventHandlerStorage
-    arguments: ['@storage.prototype', '@event.config', '@event.handler.factory']
+    arguments: ['@map.prototype', '@event.config', '@event.handler.factory']
   event.dispatcher:
     class: Vainyl\Event\EventDispatcher
     arguments: ['@event.handler.storage']
@@ -18,10 +18,10 @@ services:
     arguments: ['@app.environment']
   event.config.factory:
     class: Vainyl\Event\Config\EventConfigFactory
-    arguments: ['@storage.prototype', '@extension.storage']
+    arguments: ['@map.prototype', '@extension.storage']
   event.dispatcher.collection:
     class: Vainyl\Event\Operation\CollectionEventDispatcher
-    arguments: ['@storage.prototype', '@event.dispatcher']
+    arguments: ['@queue.prototype', '@event.dispatcher']
   collection.factory.sequence.event:
     decorates: collection.factory.sequence
     decoration_priority: 500
