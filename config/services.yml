@@ -21,7 +21,7 @@ services:
     arguments: ['@map.prototype', '@extension.storage']
   event.dispatcher.collection:
     class: Vainyl\Event\Operation\CollectionEventDispatcher
-    arguments: ['@map.prototype', '@event.dispatcher']
+    arguments: ['@queue.prototype', '@event.dispatcher']
   collection.factory.sequence.event:
     decorates: collection.factory.sequence
     decoration_priority: 500
