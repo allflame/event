@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Vainyl\Event\Storage;
 
-use Vainyl\Core\Storage\StorageInterface;
+use Vainyl\Core\IdentifiableInterface;
 use Vainyl\Event\EventHandlerInterface;
 use Vainyl\Event\EventInterface;
 
@@ -21,7 +21,7 @@ use Vainyl\Event\EventInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-interface EventHandlerStorageInterface extends StorageInterface
+interface EventHandlerStorageInterface extends IdentifiableInterface
 {
     /**
      * @param EventInterface $event
