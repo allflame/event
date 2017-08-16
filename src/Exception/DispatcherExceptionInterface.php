@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Vainyl\Event\Exception;
 
+use Vainyl\Core\Exception\CoreExceptionInterface;
 use Vainyl\Event\EventDispatcherInterface;
 
 /**
@@ -19,7 +20,7 @@ use Vainyl\Event\EventDispatcherInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-interface DispatcherExceptionInterface extends \Throwable
+interface DispatcherExceptionInterface extends CoreExceptionInterface
 {
     /**
      * @return EventDispatcherInterface
