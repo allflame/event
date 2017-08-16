@@ -14,6 +14,7 @@ namespace Vainyl\Event\Storage;
 
 use Vainyl\Core\Storage\Decorator\AbstractStorageDecorator;
 use Vainyl\Core\Storage\StorageInterface;
+use Vainyl\Event\EventHandlerInterface;
 use Vainyl\Event\EventInterface;
 use Vainyl\Event\Factory\EventHandlerFactoryInterface;
 
@@ -48,13 +49,11 @@ class EventHandlerStorage extends AbstractStorageDecorator implements EventHandl
     /**
      * @inheritDoc
      */
-    public function offsetGet($offset)
+    public function addHandler(string $eventName, EventHandlerInterface $eventHandler): EventHandlerStorageInterface
     {
-        if (false === $this->offsetExists($offset)) {
-            $this->offsetSet($offset, $this->handlerFactory->create($offset));
-        }
+        $this->eventConfig[$eventName][] = $eventHandler;
 
-        return parent::offsetGet($offset);
+        return $this;
     }
 
     /**
@@ -68,5 +67,25 @@ class EventHandlerStorage extends AbstractStorageDecorator implements EventHandl
         }
 
         return $eventHandlers;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetGet($offset)
+    {
+        if (false === $this->offsetExists($offset)) {
+            $this->offsetSet($offset, $this->handlerFactory->create($offset));
+        }
+
+        return parent::offsetGet($offset);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeHandler(string $eventName, EventHandlerInterface $eventHandler): EventHandlerStorageInterface
+    {
+        return $this;
     }
 }
