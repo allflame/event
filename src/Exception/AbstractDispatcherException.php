@@ -30,13 +30,13 @@ abstract class AbstractDispatcherException extends AbstractCoreException impleme
      * @param EventDispatcherInterface $eventDispatcher
      * @param string                   $message
      * @param int                      $code
-     * @param \Exception|null          $previous
+     * @param \Throwable|null          $previous
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         string $message,
         int $code = 500,
-        \Exception $previous = null
+        \Throwable $previous = null
     ) {
         $this->eventDispatcher = $eventDispatcher;
         parent::__construct($message, $code, $previous);

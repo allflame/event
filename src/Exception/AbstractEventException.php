@@ -30,9 +30,9 @@ abstract class AbstractEventException extends AbstractCoreException implements E
      * @param EventInterface  $event
      * @param string          $message
      * @param int             $code
-     * @param \Exception|null $previous
+     * @param \Throwable|null $previous
      */
-    public function __construct(EventInterface $event, string $message, int $code = 500, \Exception $previous = null)
+    public function __construct(EventInterface $event, string $message, int $code = 500, \Throwable $previous = null)
     {
         $this->event = $event;
         parent::__construct($message, $code, $previous);
