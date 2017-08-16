@@ -72,6 +72,14 @@ class EventHandlerStorage extends AbstractStorageDecorator implements EventHandl
     /**
      * @inheritDoc
      */
+    public function hasListeners(string $eventName): bool
+    {
+        return $this->offsetExists($eventName) && [] !== $this->offsetGet($eventName);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function offsetGet($offset)
     {
         if (false === $this->offsetExists($offset)) {

@@ -24,6 +24,13 @@ use Vainyl\Event\EventInterface;
 interface EventHandlerStorageInterface extends IdentifiableInterface
 {
     /**
+     * @param string $eventName
+     *
+     * @return bool
+     */
+    public function hasListeners(string $eventName) : bool;
+
+    /**
      * @param EventInterface $event
      *
      * @return EventHandlerInterface[]
