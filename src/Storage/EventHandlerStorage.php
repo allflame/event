@@ -15,7 +15,6 @@ namespace Vainyl\Event\Storage;
 use Vainyl\Core\Storage\Decorator\AbstractStorageDecorator;
 use Vainyl\Core\Storage\StorageInterface;
 use Vainyl\Event\EventHandlerInterface;
-use Vainyl\Event\EventInterface;
 use Vainyl\Event\Factory\EventHandlerFactoryInterface;
 
 /**
@@ -59,10 +58,10 @@ class EventHandlerStorage extends AbstractStorageDecorator implements EventHandl
     /**
      * @inheritDoc
      */
-    public function getHandlers(EventInterface $event): array
+    public function getHandlers(string $eventName): array
     {
         $eventHandlers = [];
-        foreach ($this->eventConfig[$event->getName()] as $alias) {
+        foreach ($this->eventConfig[$eventName] as $alias) {
             $eventHandlers[] = $this->offsetGet($alias);
         }
 
