@@ -64,6 +64,8 @@ class EventHandlerStorage extends AbstractIdentifiable implements EventHandlerSt
     ): EventHandlerStorageInterface {
         if (false === $this->handlerMap->offsetExists($eventName)) {
             $this->handlerMap->offsetSet($eventName, clone $this->queuePrototype);
+        }
+        if (false === $this->priorityMap->offsetExists($eventName)) {
             $this->priorityMap->offsetSet($eventName, clone $this->mapPrototype);
         }
         $this->handlerMap[$eventName]->enqueue($eventHandler, $priority);
