@@ -25,10 +25,15 @@ interface EventHandlerStorageInterface extends IdentifiableInterface
     /**
      * @param string                $eventName
      * @param EventHandlerInterface $eventHandler
+     * @param int                   $priority
      *
      * @return EventHandlerStorageInterface
      */
-    public function addHandler(string $eventName, EventHandlerInterface $eventHandler): EventHandlerStorageInterface;
+    public function addHandler(
+        string $eventName,
+        EventHandlerInterface $eventHandler,
+        int $priority = 0
+    ): EventHandlerStorageInterface;
 
     /**
      * @param string $eventName

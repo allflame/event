@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Vainyl\Event\Storage;
 
+use Vainyl\Core\Queue\PriorityQueueInterface;
 use Vainyl\Core\Storage\Decorator\AbstractStorageDecorator;
 use Vainyl\Core\Storage\StorageInterface;
 use Vainyl\Event\EventHandlerInterface;
@@ -26,6 +27,8 @@ class EventHandlerStorage extends AbstractStorageDecorator implements EventHandl
 {
     private $eventConfig;
 
+    private $priorityQueue;
+
     private $handlerFactory;
 
     /**
@@ -33,14 +36,17 @@ class EventHandlerStorage extends AbstractStorageDecorator implements EventHandl
      *
      * @param StorageInterface             $storage
      * @param StorageInterface             $eventConfig
+     * @param PriorityQueueInterface       $priorityQueue ,
      * @param EventHandlerFactoryInterface $handlerFactory
      */
     public function __construct(
         StorageInterface $storage,
         StorageInterface $eventConfig,
+        PriorityQueueInterface $priorityQueue,
         EventHandlerFactoryInterface $handlerFactory
     ) {
         $this->eventConfig = $eventConfig;
+        $this->priorityQueue = $priorityQueue;
         $this->handlerFactory = $handlerFactory;
         parent::__construct($storage);
     }
@@ -48,9 +54,15 @@ class EventHandlerStorage extends AbstractStorageDecorator implements EventHandl
     /**
      * @inheritDoc
      */
-    public function addHandler(string $eventName, EventHandlerInterface $eventHandler): EventHandlerStorageInterface
-    {
-        $this->eventConfig[$eventName][] = $eventHandler;
+    public function addHandler(
+        string $eventName,
+        EventHandlerInterface $eventHandler,
+        int $priority = 0
+    ): EventHandlerStorageInterface {
+        if (false === $this->eventConfig->offsetExists($eventName)) {
+            $this->eventConfig->offsetSet($eventName, clone $this->priorityQueue);
+        }
+        $this->eventConfig[$eventName]->enqueue($eventHandler, $priority);
 
         return $this;
     }
@@ -60,12 +72,11 @@ class EventHandlerStorage extends AbstractStorageDecorator implements EventHandl
      */
     public function getHandlers(string $eventName): array
     {
-        $eventHandlers = [];
-        foreach ($this->eventConfig[$eventName] as $alias) {
-            $eventHandlers[] = $this->offsetGet($alias);
+        if (false === $this->offsetExists($eventName)) {
+            return [];
         }
 
-        return $eventHandlers;
+        return $this->eventConfig[$eventName]->toArray();
     }
 
     /**

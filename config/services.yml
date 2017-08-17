@@ -8,7 +8,7 @@ services:
     arguments: ['@app.di']
   event.handler.storage:
     class: Vainyl\Event\Storage\EventHandlerStorage
-    arguments: ['@map.prototype', '@event.config', '@event.handler.factory']
+    arguments: ['@map.prototype', '@map.prototype', '@priority.queue.prototype','@event.handler.factory']
   event.dispatcher:
     class: Vainyl\Event\EventDispatcher
     arguments: ['@event.handler.storage']
