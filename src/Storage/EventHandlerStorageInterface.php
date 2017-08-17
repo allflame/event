@@ -43,6 +43,13 @@ interface EventHandlerStorageInterface extends IdentifiableInterface
     public function getHandlers(string $eventName): array;
 
     /**
+     * @param EventHandlerInterface $eventHandler
+     *
+     * @return int
+     */
+    public function getListenerPriority(string $eventName, EventHandlerInterface $eventHandler): int;
+
+    /**
      * @param string $eventName
      *
      * @return bool
