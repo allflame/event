@@ -39,7 +39,7 @@ class EventDispatcher extends AbstractIdentifiable implements EventDispatcherInt
      */
     public function dispatch(EventInterface $event): EventDispatcherInterface
     {
-        foreach ($this->handlerStorage->getHandlers($event) as $handler) {
+        foreach ($this->handlerStorage->getHandlers($event->getName()) as $handler) {
             $handler->handle($event);
         }
 
