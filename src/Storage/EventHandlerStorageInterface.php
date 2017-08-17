@@ -20,7 +20,7 @@ use Vainyl\Event\EventHandlerInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-interface EventHandlerStorageInterface extends IdentifiableInterface
+interface EventHandlerStorageInterface extends IdentifiableInterface, \IteratorAggregate
 {
     /**
      * @param string                $eventName

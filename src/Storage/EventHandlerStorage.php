@@ -89,6 +89,22 @@ class EventHandlerStorage extends AbstractIdentifiable implements EventHandlerSt
     /**
      * @inheritDoc
      */
+    public function getIterator()
+    {
+        $handlerMap = [];
+        /**
+         * @var PriorityQueueInterface $handlerQueue
+         */
+        foreach ($this->handlerMap as $eventName => $handlerQueue) {
+            $handlerMap[$eventName] = $handlerQueue->toArray();
+        }
+
+        return new \ArrayIterator($handlerMap);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getListenerPriority(string $eventName, EventHandlerInterface $eventHandler): int
     {
         if (false === $this->priorityMap->offsetExists($eventName)) {
