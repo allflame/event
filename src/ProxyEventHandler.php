@@ -26,17 +26,21 @@ class ProxyEventHandler extends AbstractIdentifiable implements EventHandlerInte
 
     private $handlerAlias;
 
+    private $mode;
+
     private $handlerFactory;
 
     /**
      * ProxyEventHandler constructor.
      *
      * @param string                       $handlerAlias
+     * @param string                       $mode
      * @param EventHandlerFactoryInterface $handlerFactory
      */
-    public function __construct(string $handlerAlias, EventHandlerFactoryInterface $handlerFactory)
+    public function __construct(string $handlerAlias, string $mode, EventHandlerFactoryInterface $handlerFactory)
     {
         $this->handlerAlias = $handlerAlias;
+        $this->mode = $mode;
         $this->handlerFactory = $handlerFactory;
     }
 
@@ -46,7 +50,7 @@ class ProxyEventHandler extends AbstractIdentifiable implements EventHandlerInte
     public function getInstance(): EventHandlerInterface
     {
         if (null === $this->instance) {
-            $this->instance = $this->handlerFactory->create($this->handlerAlias);
+            $this->instance = $this->handlerFactory->create($this->handlerAlias, $this->mode);
         }
 
         return $this;

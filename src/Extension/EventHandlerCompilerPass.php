@@ -37,7 +37,7 @@ class EventHandlerCompilerPass implements CompilerPassInterface
         $handlerStorageDefinition = $container->findDefinition('event.handler.storage');
         foreach ($container->findTaggedServiceIds('event.handler') as $id => $tags) {
             foreach ($tags as $attributes) {
-                foreach (['event', 'priority', 'mode'] as $requiredAttribute) {
+                foreach (['event', 'priority'] as $requiredAttribute) {
                     if (false === array_key_exists($requiredAttribute, $attributes)) {
                         throw new MissingRequiredFieldException($container, $id, $attributes, $requiredAttribute);
                     }

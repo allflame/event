@@ -51,14 +51,13 @@ class EventExtension extends AbstractFrameworkExtension
             foreach ($handlers as $handlerConfig) {
                 $handlerDefinition = (new Definition(
                     ProxyEventHandler::class,
-                    [$handlerConfig['handler'], new Reference('event.handler.factory')]
+                    [$handlerConfig['handler'], $handlerConfig['mode'], new Reference('event.handler.factory')]
                 ))
                     ->addTag(
                         'event.handler',
                         [
                             'event'    => $eventName,
                             'priority' => $handlerConfig['priority'],
-                            'mode'     => $handlerConfig['mode'],
                         ]
                     );
                 $container->setDefinition(sprintf('event.handler.proxy.%s.%d', $eventName, $count), $handlerDefinition);

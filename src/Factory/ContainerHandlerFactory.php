@@ -38,7 +38,7 @@ class ContainerHandlerFactory extends AbstractIdentifiable implements EventHandl
     /**
      * @inheritDoc
      */
-    public function create(string $handlerName): EventHandlerInterface
+    public function create(string $handlerName, string $mode): EventHandlerInterface
     {
         return $this->container->get($handlerName);
     }
