@@ -3,21 +3,16 @@ services:
     synthetic: true
     tags:
       - {name: 'logger', channel: 'event'}
-  event.handler.factory:
+  event.handler.factory.container:
     class: Vainyl\Event\Factory\ContainerHandlerFactory
     arguments: ['@app.di']
+  event.handler.factory: '@event.handler.factory.container'
   event.handler.storage:
     class: Vainyl\Event\Storage\EventHandlerStorage
     arguments: ['@map.prototype', '@priority.queue.prototype', '@event.handler.factory']
   event.dispatcher:
     class: Vainyl\Event\EventDispatcher
     arguments: ['@event.handler.storage']
-  event.config:
-    class: Vainyl\Event\Config\EventConfig
-    factory: ['@event.config.factory', createConfig]
-  event.config.factory:
-    class: Vainyl\Event\Config\EventConfigFactory
-    arguments: ['@map.prototype', '@extension.storage']
   event.dispatcher.collection:
     class: Vainyl\Event\Operation\CollectionEventDispatcher
     arguments: ['@queue.prototype', '@event.dispatcher']
