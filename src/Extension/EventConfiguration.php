@@ -32,20 +32,13 @@ class EventConfiguration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('source')
-                    ->children()
-                        ->scalarNode('type')
-                        ->arrayNode('options')
-                            ->prototype('scalar')->end()
-                            ->defaultValue([])
-                        ->end()
-                    ->end()
                 ->arrayNode('events')
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
                             ->scalarNode('handler')->end()
-                            ->scalarNode('mode')->end()
+                            ->scalarNode('priority')->defaultValue(0)->end()
+                            ->scalarNode('mode')->defaultValue('foreground')->end()
                         ->end()
                 ->end()
             ->end();
