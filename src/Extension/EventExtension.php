@@ -30,32 +30,38 @@ class EventExtension extends AbstractFrameworkExtension
     /**
      * @inheritDoc
      */
+    public function getCompilerPasses(): array
+    {
+        return [[new EventHandlerCompilerPass()]];
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function load(array $configs, ContainerBuilder $container): AbstractExtension
     {
         parent::load($configs, $container);
         $eventConfiguration = $this->processConfiguration(new EventConfiguration(), $configs);
-        if (false === $container->hasDefinition('event.handler.storage')) {
-            throw new MissingRequiredServiceException($container, 'event.handler.storage');
+        if (false === $container->hasDefinition('event.handler.factory')) {
+            throw new MissingRequiredServiceException($container, 'event.handler.factory');
         }
 
-        $handlerStorageDefinition = $container->findDefinition('event.handler.storage');
         foreach ($eventConfiguration as $eventName => $handlers) {
             $count = 0;
             foreach ($handlers as $handlerConfig) {
-                $handlerName = sprintf('event.handler.proxy.%s.%d', $eventName, $count);
-                $handlerDefinition = new Definition(
+                $handlerDefinition = (new Definition(
                     ProxyEventHandler::class,
                     [$handlerConfig['handler'], new Reference('event.handler.factory')]
-                );
-                $container->setDefinition($handlers, $handlerDefinition);
-                $handlerStorageDefinition->addMethodCall(
-                    'addHandler',
-                    [
-                        $eventName,
-                        new Reference($handlerName),
-                        $handlerConfig['priority'],
-                    ]
-                );
+                ))
+                    ->addTag(
+                        'event.handler',
+                        [
+                            'event'    => $eventName,
+                            'priority' => $handlerConfig['priority'],
+                            'mode'     => $handlerConfig['mode'],
+                        ]
+                    );
+                $container->setDefinition(sprintf('event.handler.proxy.%s.%d', $eventName, $count), $handlerDefinition);
                 $count++;
             }
         }
