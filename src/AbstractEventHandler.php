@@ -33,6 +33,6 @@ abstract class AbstractEventHandler extends AbstractIdentifiable implements Even
             throw new MissingMethodException($this, $event, $name);
         }
 
-        return call_user_func([$this, $name], $name);
+        return call_user_func([$this, $name], $event);
     }
 }
