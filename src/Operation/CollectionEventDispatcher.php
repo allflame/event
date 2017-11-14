@@ -72,7 +72,7 @@ class CollectionEventDispatcher extends AbstractIdentifiable implements Collecti
             throw new LevelIntegrityDispatcherException($this, $this->level);
         }
 
-        foreach ($this->queue->dequeue() as $event) {
+        while ($event = $this->queue->dequeue()) {
             $this->eventDispatcher->dispatch($event);
         }
 
