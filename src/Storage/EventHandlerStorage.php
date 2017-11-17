@@ -111,7 +111,7 @@ class EventHandlerStorage extends AbstractIdentifiable implements EventHandlerSt
             return 0;
         }
 
-        if (false === $this->priorityMap[$eventName]->ofssetExists($eventHandler)) {
+        if (false === $this->priorityMap[$eventName]->offsetExists($eventHandler)) {
             return 0;
         }
 
@@ -138,7 +138,7 @@ class EventHandlerStorage extends AbstractIdentifiable implements EventHandlerSt
         if (false === $this->priorityMap->offsetExists($eventName)) {
             return $this;
         }
-        $this->priorityMap[$eventName]->offsetUnser($eventHandler);
+        $this->priorityMap[$eventName]->offsetUnset($eventHandler);
 
         return $this;
     }
