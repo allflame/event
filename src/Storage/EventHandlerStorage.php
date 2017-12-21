@@ -25,14 +25,29 @@ use Vainyl\Event\Factory\EventHandlerFactoryInterface;
  */
 class EventHandlerStorage extends AbstractIdentifiable implements EventHandlerStorageInterface
 {
+    /**
+     * @var StorageInterface|PriorityQueueInterface[]
+     */
     private $handlerMap;
 
+    /**
+     * @var StorageInterface|StorageInterface[]
+     */
     private $priorityMap;
 
+    /**
+     * @var \Vainyl\Core\Storage\StorageInterface
+     */
     private $mapPrototype;
 
+    /**
+     * @var \Vainyl\Core\Queue\PriorityQueueInterface
+     */
     private $queuePrototype;
 
+    /**
+     * @var \Vainyl\Event\Factory\EventHandlerFactoryInterface
+     */
     private $handlerFactory;
 
     /**
@@ -47,9 +62,9 @@ class EventHandlerStorage extends AbstractIdentifiable implements EventHandlerSt
         PriorityQueueInterface $queuePrototype,
         EventHandlerFactoryInterface $handlerFactory
     ) {
-        $this->handlerMap = clone $mapPrototype;
-        $this->priorityMap = clone $mapPrototype;
-        $this->mapPrototype = $mapPrototype;
+        $this->handlerMap     = clone $mapPrototype;
+        $this->priorityMap    = clone $mapPrototype;
+        $this->mapPrototype   = $mapPrototype;
         $this->queuePrototype = $queuePrototype;
         $this->handlerFactory = $handlerFactory;
     }
@@ -69,7 +84,7 @@ class EventHandlerStorage extends AbstractIdentifiable implements EventHandlerSt
             $this->priorityMap->offsetSet($eventName, clone $this->mapPrototype);
         }
         $this->handlerMap[$eventName]->enqueue($eventHandler, $priority);
-        $this->priorityMap[$eventName][$eventHandler] = 0;
+        $this->priorityMap[$eventName][$eventHandler] = $priority;
 
         return $this;
     }
@@ -134,11 +149,34 @@ class EventHandlerStorage extends AbstractIdentifiable implements EventHandlerSt
         if (false === $this->handlerMap->offsetExists($eventName)) {
             return $this;
         }
-        $this->handlerMap[$eventName]->offsetUnset($eventHandler);
+
         if (false === $this->priorityMap->offsetExists($eventName)) {
             return $this;
         }
+
         $this->priorityMap[$eventName]->offsetUnset($eventHandler);
+        $this->refillPriorityQueue($this->handlerMap[$eventName], $this->priorityMap[$eventName]);
+
+        return $this;
+    }
+
+    /**
+     * PriorityQueueInterface doesn't support offsetUnset. So, destruct all elements and refill by priority map
+     *
+     * @param PriorityQueueInterface $queue
+     * @param StorageInterface       $priorityMap
+     *
+     * @return $this
+     */
+    private function refillPriorityQueue(PriorityQueueInterface $queue, StorageInterface $priorityMap): self
+    {
+        while ($queue->valid()) {
+            $queue->dequeue();
+        }
+
+        foreach ($priorityMap as $eventHandler => $priority) {
+            $queue->enqueue($eventHandler, $priority);
+        }
 
         return $this;
     }
